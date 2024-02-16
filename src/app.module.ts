@@ -1,15 +1,22 @@
-import { Module } from '@nestjs/common';
-import { APP_FILTER } from '@nestjs/core';
+import {
+  ClassSerializerInterceptor,
+  ConsoleLogger,
+  Module,
+} from '@nestjs/common';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CityModule } from './city/city.module';
-import { AuthModule } from './auth/auth.module';
-import { StateModule } from './state/state.module';
-import { CacheModule } from './cache/cache.module';
-import { AdressModule } from './adress/adress.module';
-import { HttpExceptionFilter } from './filters/http-exception-filter';
+import { CacheModule } from '@nestjs/cache-manager';
+import { redisStore } from 'cache-manager-redis-yet';
+import { UserModule } from './modules/user/user.module';
+import { CityModule } from './modules/city/city.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { StateModule } from './modules/state/state.module';
+import { AdressModule } from './modules/adress/adress.module';
 import { PostgresConfigService } from './config/postgres.config.service';
+import { GlobalExceptionFilter } from './resources/filters/global-exception-filter';
+import { LoggerGlobalInterceptor } from './resources/interceptors/logger-global/logger-global.interceptor';
+import { AuthGuard } from './modules/auth/auth.guard';
 
 @Module({
   imports: [
@@ -25,13 +32,31 @@ import { PostgresConfigService } from './config/postgres.config.service';
     StateModule,
     CityModule,
     AuthModule,
-    CacheModule,
+    CacheModule.registerAsync({
+      useFactory: async () => ({
+        store: await redisStore({ ttl: 10 * 1000 }),
+      }),
+      isGlobal: true,
+    }),
   ],
   providers: [
     {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
+      provide: APP_GUARD,
+      useClass: AuthGuard,
     },
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggerGlobalInterceptor,
+    },
+    ConsoleLogger,
   ],
 })
 export class AppModule {}
