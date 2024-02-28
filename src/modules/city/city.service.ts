@@ -28,7 +28,7 @@ export class CityService implements ICityService {
     return cities;
   }
 
-  public async findByCityId(cityId: number): Promise<CityEntity> {
+  public async findCityById(cityId: number): Promise<CityEntity> {
     const city = await this.cityRepository.findOneBy({ id: cityId });
 
     if (!city)

@@ -1,5 +1,5 @@
 import { UserEntity } from '../entities/user.entity';
-import { ListAdressDto } from '../../adress/dto/list-adress.dto';
+import { ListAdressDto } from '../../address/dto/list-adress.dto';
 
 export class ListUserDto {
   id: number;
@@ -16,8 +16,8 @@ export class ListUserDto {
     this.phone = userEntity.phone;
     this.cpf = userEntity.cpf;
 
-    this.adress = userEntity.adress
-      ? userEntity.adress.map((adress) => new ListAdressDto(adress))
+    this.adress = userEntity.address
+      ? userEntity.address.map((adress) => new ListAdressDto(adress))
       : undefined;
   }
 }

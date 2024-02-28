@@ -6,6 +6,6 @@ export interface IUserService {
   getAllUsers(): Promise<UserEntity[]>;
   getUserByIdUsingRelations(id: number): Promise<UserEntity>;
   createUser(createUserDto: CreateUserDto): Promise<UserEntity>;
-  findByUserId(userId: number): Promise<UserEntity>;
+  findUserById(userId: number): Promise<UserEntity>;
   findUserByEmail(email: string): Promise<UserEntity>;
 }

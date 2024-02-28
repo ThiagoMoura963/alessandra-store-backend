@@ -3,7 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
 import { IUserService } from './interfaces/user.interface';
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -13,6 +17,13 @@ export class UserService implements IUserService {
   ) {}
 
   public async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const user = await this.findUserByEmail(createUserDto.email).catch(
+      () => undefined,
+    );
+
+    if (user)
+      throw new BadGatewayException(`O email ${createUserDto.email} já existe`);
+
     const userEntity = new UserEntity();
 
     Object.assign(userEntity, createUserDto as UserEntity);
@@ -24,7 +35,7 @@ export class UserService implements IUserService {
   public async getAllUsers(): Promise<UserEntity[]> {
     return await this.userRepository.find({
       relations: {
-        adress: {
+        address: {
           city: {
             state: true,
           },
@@ -37,7 +48,7 @@ export class UserService implements IUserService {
     const user = await this.userRepository.findOne({
       where: { id: userId },
       relations: {
-        adress: {
+        address: {
           city: {
             state: true,
           },
@@ -51,7 +62,7 @@ export class UserService implements IUserService {
     return user;
   }
 
-  public async findByUserId(userId: number): Promise<UserEntity> {
+  public async findUserById(userId: number): Promise<UserEntity> {
     const user = await this.userRepository.findOneBy({ id: userId });
 
     if (!user)

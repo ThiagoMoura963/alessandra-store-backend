@@ -1,5 +1,5 @@
 import { StateEntity } from '../../state/entities/state.entity';
-import { AdressEntity } from '../../adress/entities/adress.entity';
+import { AddressEntity } from '../../address/entities/address.entity';
 import {
   Column,
   CreateDateColumn,
@@ -23,13 +23,13 @@ export class CityEntity {
   name: string;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  updatedAt: Date;
 
-  @OneToMany(() => AdressEntity, (adress) => adress.city)
-  adress?: AdressEntity[];
+  @OneToMany(() => AddressEntity, (address) => address.city)
+  address?: AddressEntity[];
 
   @ManyToOne(() => StateEntity, (state) => state.cities)
   @JoinColumn({ name: 'state_id', referencedColumnName: 'id' })

@@ -1,11 +1,11 @@
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ListLogin } from './dto/list-login.dto';
 import { UserService } from '../user/user.service';
+import { ListUserDto } from '../user/dto/list-user.dto';
 import { IAuthService } from './interfaces/auth.interface';
 import { UserPayload } from './interfaces/user-payload.interface';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { ListLogin } from './dto/list-login.dto';
-import { ListUserDto } from '../user/dto/list-user.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {

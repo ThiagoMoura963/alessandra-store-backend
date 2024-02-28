@@ -1,4 +1,4 @@
-import { AdressEntity } from '../entities/adress.entity';
+import { AddressEntity } from '../entities/address.entity';
 import { CreateAdressDto } from '../dto/create-adress.dto';
 import { UpdateAdressDto } from '../dto/update-adress.dto';
 
@@ -6,11 +6,13 @@ export interface IAdressService {
   createAdress(
     createAdressDto: CreateAdressDto,
     userId: number,
-  ): Promise<AdressEntity>;
+  ): Promise<AddressEntity>;
 
   updateAdress(
     userId: number,
     adressId: number,
     updatedAdressDto: UpdateAdressDto,
-  ): Promise<AdressEntity>;
+  ): Promise<AddressEntity>;
+
+  findAddressByUserId(userId: number): Promise<AddressEntity[]>;
 }

@@ -1,5 +1,5 @@
 import { Exclude } from 'class-transformer';
-import { AdressEntity } from '../../adress/entities/adress.entity';
+import { AddressEntity } from '../../address/entities/address.entity';
 import {
   Column,
   CreateDateColumn,
@@ -41,8 +41,8 @@ export class UserEntity {
   updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: Date;
+  deletedAt?: Date;
 
-  @OneToMany(() => AdressEntity, (adress) => adress.user)
-  adress: AdressEntity[];
+  @OneToMany(() => AddressEntity, (address) => address.user)
+  address?: AddressEntity[];
 }

@@ -12,7 +12,7 @@ import { UserModule } from './modules/user/user.module';
 import { CityModule } from './modules/city/city.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { StateModule } from './modules/state/state.module';
-import { AdressModule } from './modules/adress/adress.module';
+import { AddressModule } from './modules/address/address.module';
 import { PostgresConfigService } from './config/postgres.config.service';
 import { GlobalExceptionFilter } from './resources/filters/global-exception-filter';
 import { LoggerGlobalInterceptor } from './resources/interceptors/logger-global/logger-global.interceptor';
@@ -28,7 +28,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
       inject: [PostgresConfigService],
     }),
     UserModule,
-    AdressModule,
+    AddressModule,
     StateModule,
     CityModule,
     AuthModule,

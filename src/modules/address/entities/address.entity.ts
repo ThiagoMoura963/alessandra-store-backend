@@ -11,8 +11,8 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'adress' })
-export class AdressEntity {
+@Entity({ name: 'address' })
+export class AddressEntity {
   @PrimaryGeneratedColumn('rowid')
   id: number;
 
@@ -25,26 +25,26 @@ export class AdressEntity {
   @Column({ name: 'cep', nullable: false })
   cep: string;
 
-  @Column({ name: 'complement', nullable: true })
+  @Column({ name: 'complement' })
   complement: string;
 
   @Column({ name: 'number', nullable: false })
   number: number;
 
   @CreateDateColumn({ name: 'created_at' })
-  createdAt: string;
+  createdAt: Date;
 
   @UpdateDateColumn({ name: 'updated_at' })
-  updatedAt: string;
+  updatedAt: Date;
 
   @DeleteDateColumn({ name: 'deleted_at' })
-  deletedAt: string;
+  deletedAt?: Date;
 
-  @ManyToOne(() => UserEntity, (user) => user.adress)
+  @ManyToOne(() => UserEntity, (user) => user.address)
   @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
   user?: UserEntity;
 
-  @ManyToOne(() => CityEntity, (city) => city.adress)
+  @ManyToOne(() => CityEntity, (city) => city.address)
   @JoinColumn({ name: 'city_id', referencedColumnName: 'id' })
   city?: CityEntity;
 }
