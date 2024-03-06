@@ -15,6 +15,7 @@ export class CreateUserDto {
   @IsNotEmpty({ message: 'O campo e-mail é obrigatório' })
   email: string;
 
+  @IsString()
   @IsNotEmpty({ message: 'O campo senha é obrigatória' })
   @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*\W+)(.{6,30})$/, {
     message:

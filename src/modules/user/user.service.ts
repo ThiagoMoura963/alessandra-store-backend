@@ -5,9 +5,13 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { IUserService } from './interfaces/user.interface';
 import {
   BadGatewayException,
+  BadRequestException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { UserType } from './enum/type-user.enum';
+import { validatePassword } from '../../resources/utils/validate-password';
+import { UpdatePasswordDto } from './dto/update-password.dto';
 
 @Injectable()
 export class UserService implements IUserService {
@@ -27,7 +31,7 @@ export class UserService implements IUserService {
     const userEntity = new UserEntity();
 
     Object.assign(userEntity, createUserDto as UserEntity);
-    userEntity.typeUser = 1;
+    userEntity.typeUser = UserType.User;
 
     return this.userRepository.save(userEntity);
   }
@@ -78,5 +82,25 @@ export class UserService implements IUserService {
       throw new NotFoundException(`O email ${email} do usuário não existe`);
 
     return user;
+  }
+
+  public async updatePasswordUser(
+    userId: number,
+    updatePasswordDto: UpdatePasswordDto,
+  ): Promise<UserEntity> {
+    const user = await this.findUserById(userId);
+
+    const isMatch = await validatePassword(
+      updatePasswordDto.lastPassword,
+      user.password,
+    );
+
+    if (!isMatch)
+      throw new BadRequestException('A última senha está incorreta');
+
+    return this.userRepository.save({
+      ...user,
+      password: updatePasswordDto.newPassword,
+    });
   }
 }

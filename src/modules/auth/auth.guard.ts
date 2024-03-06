@@ -1,11 +1,12 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { Request } from 'express';
+import { JwtService } from '@nestjs/jwt';
 import { UserPayload } from './interfaces/user-payload.interface';
 import { RequestUser } from './interfaces/request-user.interface';
 import { Reflector } from '@nestjs/core';
@@ -39,13 +40,13 @@ export class AuthGuard implements CanActivate {
       request.user = payload;
 
       if (!requiredRoles.some((role) => role === payload.typeUser))
-        throw new UnauthorizedException(
+        throw new ForbiddenException(
           'Permissão insuficiente para acessar esta rota',
         );
     } catch (error) {
       console.error(error);
 
-      if (error instanceof UnauthorizedException) {
+      if (error instanceof ForbiddenException) {
         throw error;
       }
 

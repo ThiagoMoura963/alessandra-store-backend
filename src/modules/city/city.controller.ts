@@ -1,10 +1,7 @@
 import { Controller, Get, Param, UseInterceptors } from '@nestjs/common';
 import { CityService } from './city.service';
 import { CacheInterceptor } from '@nestjs/cache-manager';
-import { Roles } from 'src/resources/decorators/roles.decorator';
-import { UserType } from '../user/enum/type-user.enum';
 
-@Roles(UserType.User)
 @Controller('city')
 export class CityController {
   constructor(private readonly cityService: CityService) {}
