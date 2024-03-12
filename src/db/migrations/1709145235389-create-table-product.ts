@@ -9,6 +9,7 @@ export class CreateTableProduct1709145235389 implements MigrationInterface {
             name character varying NOT NULL,
             description text, 
             price double precision NOT NULL,
+            available_amount integer NOT NULL,
             created_at timestamp without time zone DEFAULT now() NOT NULL,
             updated_at timestamp without time zone DEFAULT now() NOT NULL,
             deleted_at timestamp without time zone,

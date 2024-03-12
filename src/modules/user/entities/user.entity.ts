@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { CartEntity } from '../../cart/entities/cart.entity';
 
 @Entity({ name: 'user' })
 export class UserEntity {
@@ -45,4 +46,7 @@ export class UserEntity {
 
   @OneToMany(() => AddressEntity, (address) => address.user)
   address?: AddressEntity[];
+
+  @OneToMany(() => CartEntity, (cart) => cart.user)
+  carts?: CartEntity[];
 }

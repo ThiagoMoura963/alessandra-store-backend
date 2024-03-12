@@ -37,6 +37,10 @@ export class CreateProductDto {
   @IsNotEmpty({ message: 'O preço do produto é obrigatório' })
   price: number;
 
+  @IsInt()
+  @IsNotEmpty({ message: 'A quantidade do produto é obrigatória' })
+  availableAmount: number;
+
   @ValidateNested()
   @IsArray()
   @ArrayMinSize(1)

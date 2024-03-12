@@ -9,4 +9,5 @@ export const productEntityMock: ProductEntity = {
   price: 5,
   createdAt: new Date(),
   updatedAt: new Date(),
+  availableAmount: 0,
 };

@@ -7,4 +7,5 @@ export const createProductMock: CreateProductDto = {
   description: productEntityMock.description,
   categoryId: categoryEntityMock.id,
   price: productEntityMock.price,
+  availableAmount: 0,
 };

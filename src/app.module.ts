@@ -12,6 +12,7 @@ import { AuthGuard } from './modules/auth/auth.guard';
 import { UserModule } from './modules/user/user.module';
 import { CityModule } from './modules/city/city.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { CartModule } from './modules/cart/cart.module';
 import { StateModule } from './modules/state/state.module';
 import { ProductModule } from './modules/product/product.module';
 import { AddressModule } from './modules/address/address.module';
@@ -42,6 +43,7 @@ import { LoggerGlobalInterceptor } from './resources/interceptors/logger-global/
     }),
     ProductModule,
     CategoryModule,
+    CartModule,
   ],
   providers: [
     {

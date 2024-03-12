@@ -11,6 +11,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { ProductImageEntity } from './product-image.entity';
+import { CartProductEntity } from '../../cart/entities/cart-product.entity';
 
 @Entity({ name: 'product' })
 export class ProductEntity {
@@ -26,8 +27,11 @@ export class ProductEntity {
   @Column({ name: 'description', nullable: true })
   description: string;
 
-  @Column({ name: 'price', nullable: false })
+  @Column({ name: 'price', type: 'double precision', nullable: false })
   price: number;
+
+  @Column({ name: 'available_amount', nullable: false })
+  availableAmount: number;
 
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
@@ -38,7 +42,9 @@ export class ProductEntity {
   @DeleteDateColumn({ name: 'deleted_at' })
   deletedAt?: Date;
 
-  @ManyToOne(() => CategoryEntity, (category) => category.products)
+  @ManyToOne(() => CategoryEntity, (category) => category.products, {
+    eager: true,
+  })
   @JoinColumn({ name: 'category_id', referencedColumnName: 'id' })
   category?: CategoryEntity;
 
@@ -47,4 +53,7 @@ export class ProductEntity {
     eager: true,
   })
   images?: ProductImageEntity[];
+
+  @OneToMany(() => CartProductEntity, (cartProduct) => cartProduct.product)
+  cartProducts?: CartProductEntity[];
 }

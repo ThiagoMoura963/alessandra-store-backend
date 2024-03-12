@@ -32,13 +32,7 @@ export class ProductController {
   public async findAllProducts(): Promise<ListProductDto[]> {
     const products = await this.productService.findAllProducts();
     const productListed = products.map(
-      (product) =>
-        new ListProductDto(
-          product.id,
-          product.name,
-          product.categoryId,
-          product.price,
-        ),
+      (product) => new ListProductDto(product),
     );
 
     return productListed;
@@ -52,12 +46,7 @@ export class ProductController {
     const productDeleted = await this.productService.deleteProduct(productId);
 
     return {
-      product: new ListProductDto(
-        productDeleted.id,
-        productDeleted.name,
-        productDeleted.categoryId,
-        productDeleted.price,
-      ),
+      product: new ListProductDto(productDeleted),
       message: 'produto deletado com sucesso',
     };
   }
@@ -74,12 +63,7 @@ export class ProductController {
     );
 
     return {
-      product: new ListProductDto(
-        productUpdated.id,
-        productUpdated.name,
-        productUpdated.categoryId,
-        productUpdated.price,
-      ),
+      product: new ListProductDto(productUpdated),
       message: 'produto atualizado com sucesso',
     };
   }
