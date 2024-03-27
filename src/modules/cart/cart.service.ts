@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { InsertProductDto } from './dto/insert-product.dto';
 import { CartProductService } from './cart-product.service';
 import { ICartService } from './interfaces/cart.interface';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Injectable()
 export class CartService implements ICartService {
@@ -58,6 +59,26 @@ export class CartService implements ICartService {
       active: false,
       deletedAt: new Date(),
     });
+
+    return cart;
+  }
+
+  public async deleteProductInCart(
+    productId: number,
+    userId: number,
+  ): Promise<void> {
+    const cart = await this.findCartByUserId(userId);
+
+    await this.cartProductService.deleteToCartProduct(productId, cart.id);
+  }
+
+  public async updateProductInCart(
+    userId: number,
+    updateCartDto: UpdateCartDto,
+  ): Promise<CartEntity> {
+    const cart = await this.findCartByUserId(userId);
+
+    await this.cartProductService.updateToCartProduct(updateCartDto, cart);
 
     return cart;
   }

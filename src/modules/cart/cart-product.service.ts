@@ -11,6 +11,7 @@ import {
 import { ProductEntity } from '../product/entities/product.entity';
 import { CartProductEntity } from './entities/cart-product.entity';
 import { ICartProductService } from './interfaces/cart-product.interface';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Injectable()
 export class CartProductService implements ICartProductService {
@@ -44,14 +45,43 @@ export class CartProductService implements ICartProductService {
         `A quantidade solicitada (${insertProductDto.amount}) é maior do que a disponível (${product.availableAmount}) para o produto ${product.name}`,
       );
 
-    product.availableAmount -= insertProductDto.amount;
-    await this.productService.updateProduct(product.id, {
-      availableAmount: product.availableAmount,
-    });
-
     cartProduct.amount += insertProductDto.amount;
 
     return await this.cartProductRepository.save({ ...cartProduct });
+  }
+
+  public async deleteToCartProduct(
+    productId: number,
+    cartId: number,
+  ): Promise<void> {
+    await this.cartProductRepository.delete({
+      productId,
+      cartId,
+    });
+  }
+
+  public async updateToCartProduct(
+    updateCartDto: UpdateCartDto,
+    cartEntity: CartEntity,
+  ) {
+    const product = await this.productService.findProductById(
+      updateCartDto.productId,
+    );
+
+    const cartProduct = await this.verifyProductInCart(
+      updateCartDto.productId,
+      cartEntity.id,
+    );
+
+    if (updateCartDto.amount > product.availableAmount)
+      throw new BadRequestException(
+        `A quantidade solicitada (${updateCartDto.amount}) é maior do que a disponível (${product.availableAmount}) para o produto ${product.name}`,
+      );
+
+    return await this.cartProductRepository.save({
+      ...cartProduct,
+      amount: updateCartDto.amount,
+    });
   }
 
   private async createProductCart(

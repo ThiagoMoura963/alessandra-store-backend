@@ -2,9 +2,19 @@ import { CartService } from './cart.service';
 import { ListCartDto } from './dto/list-cart.dto';
 import { UserType } from '../user/enum/type-user.enum';
 import { InsertProductDto } from './dto/insert-product.dto';
-import { Roles } from 'src/resources/decorators/roles.decorator';
+import { Roles } from '../../resources/decorators/roles.decorator';
 import { RequestUser } from '../auth/interfaces/request-user.interface';
-import { Body, Controller, Delete, Get, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  Req,
+} from '@nestjs/common';
+import { UpdateCartDto } from './dto/update-cart.dto';
 
 @Controller('cart')
 export class CartController {
@@ -48,6 +58,39 @@ export class CartController {
     return {
       cart: new ListCartDto(cart),
       message: 'Carro de compras limpo com sucesso',
+    };
+  }
+
+  @Delete('/product/:productId')
+  public async deleteProductToCart(
+    @Param('productId') productId: number,
+    @Req() req: RequestUser,
+  ): Promise<{ message: string; success: boolean }> {
+    const userId = req.user.sub;
+
+    await this.cartService.deleteProductInCart(productId, userId);
+
+    return {
+      message: 'Produto removido do carro de compras com sucesso',
+      success: true,
+    };
+  }
+
+  @Patch()
+  public async updateProductToCart(
+    @Req() req: RequestUser,
+    @Body() updateCartDto: UpdateCartDto,
+  ): Promise<{ cart: ListCartDto; message: string }> {
+    const userId = req.user.sub;
+
+    const cart = await this.cartService.updateProductInCart(
+      userId,
+      updateCartDto,
+    );
+
+    return {
+      cart: new ListCartDto(cart),
+      message: 'Carro de compras atualizado com sucesso',
     };
   }
 }
