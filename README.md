@@ -1,3 +1,23 @@
+# Blog pessoal 
+### Projeto FullStack em Next.JS
+Este é o meu blog pessoal onde compartilho meus pensamentos, ideias e experiências através de posts gerados dinamicamente a partir de arquivos Markdown.
+
+
+
+## Tecnologias Utilizadas
+
+- **Frontend:** Next.JS
+- **Estilização:** Styled Components
+- **Linguagem:** TypeScript
+
+## Instalação
+
+Para instalar este projeto, basta executar o seguinte comando:
+
+```bash
+npm install
+
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
