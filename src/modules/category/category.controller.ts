@@ -5,7 +5,9 @@ import { CategoryEntity } from './entities/category.entity';
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { Roles } from '../../resources/decorators/roles.decorator';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Category')
 @Controller('category')
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}

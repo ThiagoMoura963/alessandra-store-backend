@@ -9,7 +9,9 @@ import { RequestUser } from '../auth/interfaces/request-user.interface';
 import { HashPasswordPiPe } from 'src/resources/pipes/hash-passoword.pipe';
 import { Controller, Get, Post, Body, Param, Patch, Req } from '@nestjs/common';
 import { plainToClass } from 'class-transformer';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}

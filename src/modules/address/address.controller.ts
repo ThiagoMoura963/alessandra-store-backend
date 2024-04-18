@@ -7,7 +7,9 @@ import { AddressEntity } from './entities/address.entity';
 import { Roles } from 'src/resources/decorators/roles.decorator';
 import { UserType } from '../user/enum/type-user.enum';
 import { ListAdressDto } from './dto/list-adress.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Address')
 @Roles(UserType.User, UserType.Admin)
 @Controller('address')
 export class AddressController {
