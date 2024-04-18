@@ -16,7 +16,7 @@ Esta é uma API para uma loja online, desenvolvida com NestJS, TypeScript, TypeO
 - [x] **NestJS**: Framework Node.js para construção de aplicativos escaláveis e eficientes.
 - [x] **TypeScript**: Superset JavaScript que adiciona tipagem estática e outros recursos.
 - [x] **TypeORM**: ORM (Object-Relational Mapping) para Node.js, simplificando a interação com o banco de dados.
-- [x] **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional de código aberto e poderoso.
+- [x] **PostgreSQL**: Sistema de gerenciamento de banco de dados relacional.
 
 ## Pré-Requisitos
 
